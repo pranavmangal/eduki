@@ -26,6 +26,12 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <template v-slot:append>
+        <div class="pa-2" style="text-align: center;">
+          <v-btn color="primary" :to="'../events/new'"><v-icon>mdi-plus</v-icon>New event</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
   </v-card>
 </template>

@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 import Login from './views/Login';
+import NewEvent from './views/NewEvent';
 import Home from './views/Home';
 import Coursework from './views/Coursework';
 import Events from './views/Events';
@@ -15,7 +17,12 @@ export default new Router({
             component: Login
         },
         {
-            path: '/home',
+            path: '/events/new',
+            name: 'new-event',
+            component: NewEvent
+        },
+        {
+            path: '/',
             name: 'Home',
             component: Home
         },

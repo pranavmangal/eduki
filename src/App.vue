@@ -8,9 +8,6 @@
 import {} from "vue-router";
 
 export default {
-  name: "App",
-  data: () => ({
-    //
-  })
+  name: "App"
 };
 </script>
