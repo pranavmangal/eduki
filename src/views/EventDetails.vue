@@ -2,12 +2,15 @@
   <div class="root">
     <v-progress-circular v-if="event == null" indeterminate></v-progress-circular>
     <div v-else>
-      <h1 class="display-2">{{ event.name }}</h1>
-      <p class="headline">Instructor: {{ instructor }}</p>
-      <p>
-        <strong>Time:</strong>
-        {{ time }}
-      </p>
+      <v-card class="event-card">
+        <h1 class="display-2">{{ event.name }}</h1>
+        <v-divider class="divider"></v-divider>
+        <p class="headline">Instructor: {{ instructor }}</p>
+        <p>
+          <strong>Time:</strong>
+          {{ time }}
+        </p>
+      </v-card>
     </div>
   </div>
 </template>
@@ -60,6 +63,7 @@ export default {
       const date = this.event.start_time.toDate();
       return moment(date).format("HH:mm - Do MMM YYYY");
     }
+    // duration: function() {}
   },
   methods: {
     updateEvent(event) {
@@ -72,5 +76,14 @@ export default {
 <style scoped>
 .root {
   padding: 2rem;
+}
+
+.event-card {
+  padding: 1.5rem;
+}
+
+.divider {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 </style>
