@@ -314,6 +314,7 @@
         nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
+        this.$refs.calendar.scrollToTime('08:00');
         this.start = start
         this.end = end
       },
