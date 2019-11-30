@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100vh" width="256" class="mx-left">
+  <v-card height="100vh" width="15vw" class="mx-left">
     <v-navigation-drawer permanent>
       <v-list-item>
         <v-list-item-content>
@@ -45,16 +45,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-li a {
-  text-decoration: none;
-}
-
-/* .nav-list-item:hover {
-  background: green;
-}
-.nav-list-item:active {
-  background: green;
-} */
-</style>

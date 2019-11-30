@@ -1,25 +1,23 @@
 <template>
   <div>
     <div style="float:left">
-      <Navigation></Navigation>
+      <Navigation />
     </div>
     <div>
-      <v-container fluid>
-        <v-layout>
-          <h1>Home Page</h1>
-        </v-layout>
-      </v-container>
+      <Calendar />
     </div>
   </div>
 </template>
 
 <script>
 import Navigation from "../components/Navigation";
+import Calendar from "../components/Calendar";
 
 export default {
   name: "Home",
   components: {
-    Navigation
+    Navigation,
+    Calendar
   }
 };
 </script>
