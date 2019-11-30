@@ -1,1 +1,1 @@
-# tutr
+# eduki
