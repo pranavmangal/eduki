@@ -50,6 +50,7 @@
           :type="type"
           @click:more="viewDay"
           @click:date="viewDay"
+          @click:event="showEvent"
           @change="updateRange"
         >
           <!-- the events at the top (all-day) -->
@@ -80,6 +81,52 @@
             </template>
           </template>
         </v-calendar>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          full-width
+          offset-x
+        >
+          <v-card
+            color="grey lighten-4"
+            min-width="350px"
+            flat
+          >
+            <v-toolbar
+              :color="selectedEvent.color"
+              dark
+            >
+              <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon>mdi-eye</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <div v-if="selectedEvent.type === 'workshop'">
+                <span v-if="selectedEvent.instructor !== null">
+                  <span v-html="selectedEvent.instructor"></span> will be leading this workshop.
+                </span>
+                <span v-else>This workshop doesn't yet have an assigned instructor.</span>
+                <br/>
+                <span>There are <span v-html="selectedEvent.attendees.length"></span> participants registered for this event.</span>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                text
+                color="secondary"
+                @click="selectedOpen = false"
+              >
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
       </v-sheet>
     </v-col>
   </v-row>
@@ -126,10 +173,13 @@
         },
         start: null,
         end: null,
+        selectedEvent: {},
+        selectedElement: null,
+        selectedOpen: false,
         events: [
           {
             name: 'Start of the modern era',
-            start: '2000-01-01',
+            start: '2000-01-01'
           },
         ],
       }
@@ -204,28 +254,30 @@
           let start_time_string = this.dateToCalendarString(start);
           let end_time_string = this.dateToCalendarString(end);
 
-          let color = "primary";
-          switch (eventType) {
-            case "workshop":
-              if (data.confirmed) {
-                color = "green";
-              } else {
-                color = "secondary";
-              }
-              break;
-            case "group-study-session":
-              color = "red";
-              break;
-          }
-
-          /* Add the workshops to the events */
-          this.events.push({
+          let event = {
             name: data.name,
             start: start_time_string,
             end: end_time_string,
-            type: eventType,
-            color: color
-          });
+            type: eventType
+          };
+
+          switch (eventType) {
+            case "workshop":
+              event.instructor = data.instructor;
+              event.attendees = data.attendees;
+              if (data.confirmed) {
+                event.color = "green";
+              } else {
+                event.color = "secondary";
+              }
+              break;
+            case "group-study-session":
+              event.color = "red";
+              break;
+          }
+
+          this.events.push(event);
+          window.console.log(this.events);
         })
       },
       /* Converts date to a calendar string with a bit of magic */
@@ -244,6 +296,22 @@
       },
       next() {
         this.$refs.calendar.next();
+      },
+      showEvent ({ nativeEvent, event }) {
+        const open = () => {
+          this.selectedEvent = event
+          this.selectedElement = nativeEvent.target
+          setTimeout(() => this.selectedOpen = true, 10)
+        }
+
+        if (this.selectedOpen) {
+          this.selectedOpen = false
+          setTimeout(open, 10)
+        } else {
+          open()
+        }
+
+        nativeEvent.stopPropagation()
       },
       updateRange ({ start, end }) {
         this.start = start
