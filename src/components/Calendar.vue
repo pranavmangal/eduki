@@ -1,15 +1,56 @@
 <template>
   <v-row>
     <v-col>
+      <v-sheet height="64">
+        <v-toolbar flat color="white">
+          <v-btn outlined class="mr-4" @click="setToday">
+            Today
+          </v-btn>
+          <v-btn fab text small @click="prev">
+            <v-icon small>mdi-chevron-left</v-icon>
+          </v-btn>
+          <v-btn fab text small @click="next">
+            <v-icon small>mdi-chevron-right</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-menu bottom right>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                outlined
+                v-on="on"
+              >
+                <span>{{ typeToLabel[type] }}</span>
+                <v-icon right>mdi-menu-down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>Day</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>Week</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>Month</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-toolbar>
+      </v-sheet>
       <v-sheet height="500">
         <v-calendar
           ref="calendar"
+          v-model="focus"
           :now="today"
           :value="today"
           :events="events"
           :event-color="getEventColor"
           color="primary"
-          type="week"
+          :type="type"
+          @click:more="viewDay"
+          @click:date="viewDay"
+          @change="updateRange"
         >
           <!-- the events at the top (all-day) -->
           <template v-slot:day-header="{ date }">
@@ -76,6 +117,15 @@
     data: function() {
       return {
         today: this.dateToCalendarString(new Date(Date.now())),
+        focus: this.today,
+        type: 'week',
+        typeToLabel: {
+          month: 'Month',
+          week: 'Week',
+          day: 'Day'
+        },
+        start: null,
+        end: null,
         events: [
           {
             name: 'Start of the modern era',
@@ -84,8 +134,43 @@
         ],
       }
     },
+    computed: {
+      title () {
+        const { start, end } = this
+        if (!start || !end) {
+          return ''
+        }
+
+        const startMonth = this.monthFormatter(start)
+        const endMonth = this.monthFormatter(end)
+        const prefixMonth = startMonth === endMonth ? '' : startMonth
+
+        const startYear = start.year
+        const endYear = end.year
+        const prefixYear = startYear === endYear ? '' : startYear
+
+        const startDay = start.day + this.nth(start.day)
+        const endDay = end.day + this.nth(end.day)
+
+        switch (this.type) {
+          case 'month':
+            return `${startMonth} ${startYear}`
+          case 'week':
+            return `${startDay} ${prefixMonth} ${prefixYear} - ${endDay} ${endMonth} ${endYear}`
+          case 'day':
+            return `${startDay} ${startMonth} ${startYear}`
+        }
+        return ''
+      },
+      monthFormatter () {
+        return this.$refs.calendar.getFormatter({
+          timeZone: 'UTC', month: 'long',
+        })
+      },
+    },
     mounted () {
       this.$refs.calendar.scrollToTime('08:00');
+      this.$refs.calendar.checkChange();
 
       var db = firebase.firestore();
 
@@ -103,6 +188,10 @@
           });
     },
     methods: {
+      viewDay ({ date }) {
+        this.focus = date;
+        this.type = 'day';
+      },
       updateEvents(snapshot, eventType) {
         /* Remove old workshops */
         this.events = this.events.filter(e => e.type !== eventType);
@@ -146,7 +235,25 @@
       },
       getEventColor(e) {
         return e.color;
-      }
+      },
+      setToday() {
+        this.focus = this.today;
+      },
+      prev() {
+        this.$refs.calendar.prev();
+      },
+      next() {
+        this.$refs.calendar.next();
+      },
+      updateRange ({ start, end }) {
+        this.start = start
+        this.end = end
+      },
+      nth (d) {
+        return d > 3 && d < 21
+            ? 'th'
+            : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+      },
     },
   }
 </script>
