@@ -1,14 +1,16 @@
 <template>
-  <div class="col-sm-8 col-md-4 col-12 login">
-    <v-layout align-center>
-      <v-flex fill-height>
-        <h3 style="margin-bottom: 4%">Sign In</h3>
-        <v-text-field type="text" label="Email" outlined v-model="email"></v-text-field>
-        <v-text-field type="password" label="Password" outlined v-model="password"></v-text-field>
-        <v-btn color="primary" @click="login">Login</v-btn>
-      </v-flex>
-    </v-layout>
-  </div>
+  <v-container class="root-container">
+    <div class="col-sm-8 col-md-4 col-12 login">
+      <v-layout align-center>
+        <v-flex fill-height>
+          <h2 style="margin-bottom: 5%">Sign In</h2>
+          <v-text-field type="text" label="Email" outlined v-model="email"></v-text-field>
+          <v-text-field type="password" label="Password" outlined v-model="password"></v-text-field>
+          <v-btn color="primary" @click="login">Login</v-btn>
+        </v-flex>
+      </v-layout>
+    </div>
+  </v-container>
 </template>
 
 <script>
@@ -40,3 +42,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.root-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+</style>
