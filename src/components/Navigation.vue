@@ -14,7 +14,7 @@
           v-for="item in items"
           :key="item.title"
           link
-          :to="'../' + item.title"
+          :to="item.path"
           class="nav-list-item"
         >
           <v-list-item-icon>
@@ -29,7 +29,9 @@
 
       <template v-slot:append>
         <div class="pa-2" style="text-align: center;">
-          <v-btn color="primary" :to="'../events/new'"><v-icon>mdi-plus</v-icon>New event</v-btn>
+          <v-btn color="primary" :to="'/events/new'">
+            <v-icon>mdi-plus</v-icon>New event
+          </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
@@ -42,9 +44,13 @@ export default {
   data() {
     return {
       items: [
-        { title: "Home", icon: "mdi-home" },
-        { title: "Coursework", icon: "mdi-file-document" },
-        { title: "Events", icon: "mdi-chat" }
+        { title: "Home", path: "/", icon: "mdi-home" },
+        {
+          title: "Coursework",
+          path: "/coursework",
+          icon: "mdi-file-document"
+        },
+        { title: "Events", path: "/events", icon: "mdi-chat" }
       ],
       right: null
     };
