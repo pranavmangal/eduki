@@ -3,8 +3,11 @@ import firebase from 'firebase';
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import router from './router';
+import Vuetify from 'vuetify/lib';
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.config.productionTip = false
+Vue.use(Vuetify)
 
 // Your web app's Firebase configuration
 var firebaseConfig = {

@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import {} from "vue-router";
+
 export default {
   name: "App"
 };
