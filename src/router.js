@@ -20,8 +20,8 @@ export default new Router({
             component: Home
         },
         {
-            path: '/cw',
-            name: 'Courseworks',
+            path: '/coursework',
+            name: 'Coursework',
             component: Coursework
         },
         {
