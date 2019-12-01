@@ -42,6 +42,7 @@
         :event-color="getEventColor"
         color="primary"
         :type="type"
+        :weekdays="weekdays"
         @click:more="viewDay"
         @click:date="viewDay"
         @click:event="showEvent"
@@ -79,7 +80,6 @@
         v-model="selectedOpen"
         :close-on-content-click="false"
         :activator="selectedElement"
-        full-width
         offset-x
       >
         <v-card color="grey lighten-4" min-width="350px" flat>
@@ -159,6 +159,7 @@ export default {
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
+      weekdays: [1, 2, 3, 4, 5, 6, 0],
       events: [
         {
           name: "Start of the modern era",
@@ -265,7 +266,6 @@ export default {
         }
 
         this.events.push(event);
-        window.console.log(this.events);
       });
     },
     /* Converts date to a calendar string with a bit of magic */

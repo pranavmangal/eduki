@@ -1,6 +1,5 @@
 <template>
-  <v-card height="100vh" width="15vw" class="mx-left">
-    <v-navigation-drawer permanent>
+    <v-navigation-drawer permanent app>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">eduki</v-list-item-title>
@@ -35,7 +34,6 @@
         </div>
       </template>
     </v-navigation-drawer>
-  </v-card>
 </template>
 
 <script>

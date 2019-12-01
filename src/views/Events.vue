@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div style="float:left">
-      <Navigation></Navigation>
-    </div>
     <div>
       <v-container fluid>
         <v-layout>
@@ -14,11 +11,7 @@
 </template>
 
 <script>
-import Navigation from "../components/Navigation";
 export default {
   name: "Events",
-  components: {
-    Navigation
-  }
 };
 </script>
