@@ -6,7 +6,7 @@
           <v-card-title>Create Event</v-card-title>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6">
+              <v-col>
                 <v-text-field label="Event Name" v-model="eventName"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">

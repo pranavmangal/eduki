@@ -1,29 +1,48 @@
 <template>
   <v-container class="root-container">
-    <div class="col-sm-8 col-md-4 col-12 login">
-      <v-layout align-center>
-        <v-flex fill-height>
-          <h2 style="margin-bottom: 5%">Sign In</h2>
-          <v-text-field
-            type="text"
-            label="Email"
-            :rules="[rules.required, rules.email]"
-            v-model="email"
-            outlined
-          ></v-text-field>
-          <v-text-field
-            type="password"
-            label="Password"
-            :rules="[rules.required]"
-            v-model="password"
-            outlined
-          ></v-text-field>
-          <v-btn color="primary" @click="login">Login</v-btn>
-        </v-flex>
-      </v-layout>
-    </div>
+    <v-card>
+      <v-card-title>Sign in</v-card-title>
+      <v-container class="login">
+          <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  type="text"
+                  label="Email"
+                  :rules="[rules.required, rules.email]"
+                  v-model="email"
+                  outlined
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  type="password"
+                  label="Password"
+                  :rules="[rules.required]"
+                  v-model="password"
+                  outlined
+                ></v-text-field>
+              </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-btn color="primary" @click="login">Login</v-btn>
+            </v-col>
+          </v-row>
+      </v-container>
+    </v-card>
   </v-container>
 </template>
+
+<style scoped>
+.root-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+</style>
 
 <script>
 import firebase from "firebase";
