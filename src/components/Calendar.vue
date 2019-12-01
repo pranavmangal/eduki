@@ -42,6 +42,7 @@
         :event-color="getEventColor"
         color="primary"
         :type="type"
+        :weekdays="weekdays"
         @click:more="viewDay"
         @click:date="viewDay"
         @click:event="showEvent"
@@ -159,6 +160,7 @@ export default {
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
+      weekdays: [1, 2, 3, 4, 5, 6, 0],
       events: [
         {
           name: "Start of the modern era",
