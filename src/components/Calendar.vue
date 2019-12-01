@@ -209,17 +209,9 @@ export default {
 
     var db = firebase.firestore();
 
-    db.collection("workshops").onSnapshot(
+    db.collection("events").onSnapshot(
       snapshot => {
-        this.updateEvents(snapshot, "workshop");
-      },
-      error => {
-        window.console.log(error);
-      }
-    );
-    db.collection("group-study-sessions").onSnapshot(
-      snapshot => {
-        this.updateEvents(snapshot, "group-study-session");
+        this.updateEvents(snapshot);
       },
       error => {
         window.console.log(error);
@@ -231,14 +223,16 @@ export default {
       this.focus = date;
       this.type = "day";
     },
-    updateEvents(snapshot, eventType) {
+    updateEvents(snapshot) {
       /* Remove old workshops */
-      this.events = this.events.filter(e => e.type !== eventType);
+      this.events = [];
       /* Add newly fetched workshops */
       snapshot.forEach(doc => {
         let data = doc.data();
         let start = new Date(data.start_time.toDate());
         let end = new Date(data.end_time.toDate());
+
+        let eventType = data.type;
 
         let start_time_string = this.dateToCalendarString(start);
         let end_time_string = this.dateToCalendarString(end);
@@ -260,7 +254,7 @@ export default {
               event.color = "secondary";
             }
             break;
-          case "group-study-session":
+          case "group-study":
             event.color = "red";
             break;
         }
