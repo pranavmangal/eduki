@@ -91,15 +91,6 @@
   </div>
 </template>
 
-<style scoped>
-.root-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-</style>
-
 <script>
 import firebase from "firebase";
 import moment from "moment";
@@ -119,7 +110,7 @@ export default {
       eventTypes: [
         { text: "Workshop", value: "workshop" },
         { text: "Group Study Session", value: "group-study" }
-      ],
+      ]
     };
   },
   methods: {
@@ -156,3 +147,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.root-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+</style>
