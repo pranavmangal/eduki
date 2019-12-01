@@ -8,6 +8,12 @@
 
       <v-divider></v-divider>
 
+      <v-list-item two-line>
+        <v-list-item-content>
+          <v-list-item-title><span v-html="username"></span> <v-btn @click="logout" x-small color="secondary" dark>Log out</v-btn></v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list dense nav>
         <v-list-item
           v-for="item in items"
@@ -37,8 +43,13 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   name: "Navigation",
+  props: [
+    "user",
+  ],
   data() {
     return {
       items: [
@@ -50,8 +61,21 @@ export default {
         },
         { title: "Events", path: "/events", icon: "mdi-chat" }
       ],
-      right: null
+      right: null,
     };
+  },
+  computed: {
+    username: function() {
+      if (this.user === null) {
+        return "";
+      }
+      return this.user.email;
+    }
+  },
+  methods: {
+    logout() {
+      firebase.auth().signOut();
+    }
   }
 };
 </script>
