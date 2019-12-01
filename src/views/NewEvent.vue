@@ -81,7 +81,7 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-btn color="primary" @click="onCreateEvent" :to="'/events'">Create</v-btn>
+                <v-btn color="primary" @click="onCreateEvent">Create</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -96,7 +96,7 @@ import firebase from "firebase";
 import moment from "moment";
 
 export default {
-  name: "New Event",
+  name: "NewEvent",
   data() {
     return {
       eventDateModal: false,
@@ -115,21 +115,23 @@ export default {
   },
   methods: {
     onCreateEvent() {
-      const eventDate = moment(this.eventDate);
+      const eventDate1 = moment(this.eventDate);
+      const eventDate2 = moment(this.eventDate);
       const startTime = moment(this.eventStartTime, "HH:mm");
-      const endTime = moment(this.endTime, "HH:mm");
+      const endTime = moment(this.eventEndTime, "HH:mm");
 
-      const eventStartTime = eventDate
-        .add(startTime.hours(), "hours")
-        .add(startTime.minutes(), "minutes");
-      const eventEndTime = eventDate
-        .add(endTime.hours(), "hours")
-        .add(endTime.minutes(), "minutes");
+      const eventStartTime = eventDate1
+        .add(startTime.hour(), "hour")
+        .add(startTime.minute(), "minute");
+      const eventEndTime = eventDate2
+        .add(endTime.hour(), "hour")
+        .add(endTime.minute(), "minute");
 
       if (this.eventType == "workshop") {
+        window.console.log("Adding worskhop");
         firebase
           .firestore()
-          .collection("workshops")
+          .collection("events")
           .add({
             name: this.eventName,
             start_time: firebase.firestore.Timestamp.fromDate(
@@ -140,9 +142,29 @@ export default {
             ),
             instructor: null,
             attendees: [],
-            confirmed: false
+            confirmed: false,
+            type: "workshop"
+          });
+      } else {
+        window.console.log("Adding group study");
+        firebase
+          .firestore()
+          .collection("events")
+          .add({
+            name: this.eventName,
+            start_time: firebase.firestore.Timestamp.fromDate(
+              eventStartTime.toDate()
+            ),
+            end_time: firebase.firestore.Timestamp.fromDate(
+              eventEndTime.toDate()
+            ),
+            instructor: null,
+            attendees: [],
+            confirmed: false,
+            type: "group-study"
           });
       }
+      this.$router.push({path: "/events"});
     }
   }
 };
