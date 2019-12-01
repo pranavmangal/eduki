@@ -1,13 +1,26 @@
 <template>
   <v-app>
-    <router-view />
+    <Navigation v-if="isLoggedIn()"></Navigation>
+    <v-content>
+      <router-view />
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import {} from "vue-router";
+import firebase from "firebase";
+import Navigation from "./components/Navigation";
 
 export default {
-  name: "App"
+  name: "App",
+  components: {
+    Navigation,
+  },
+  methods: {
+    async isLoggedIn() {
+      let user = firebase.auth().currentUser;
+      return user !== null;
+    }
+  }
 };
 </script>
