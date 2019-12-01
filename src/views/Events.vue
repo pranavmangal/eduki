@@ -29,7 +29,7 @@
                       <strong>End Time:</strong>
                       {{ endTime(event) }}
                     </p>
-                    <v-btn v-if="!isGoing(event)" color="primary">Attend</v-btn>
+                    <v-btn color="primary">Attend</v-btn>
                   </v-expansion-panel-content>
                 </template>
               </v-expansion-panel>
@@ -39,7 +39,7 @@
             <h1>Teach</h1>
             <br />
             <v-expansion-panels focusable>
-              <v-expansion-panel v-for="event in events" :key="event.name">
+              <v-expansion-panel v-for="event in teachEvents" :key="event.name">
                 <template>
                   <v-expansion-panel-header>
                     <span class="headline">{{ event.name }}</span>
@@ -61,7 +61,7 @@
                       <strong>End Time:</strong>
                       {{ endTime(event) }}
                     </p>
-                    <v-btn v-if="!isGoing(event)" color="primary">Teach</v-btn>
+                    <v-btn color="primary">Teach</v-btn>
                   </v-expansion-panel-content>
                 </template>
               </v-expansion-panel>
@@ -82,19 +82,6 @@ export default {
   mounted() {
     let vm = this;
 
-    let userId = firebase.auth().currentUser.uid;
-    window.console.log(userId);
-
-    firebase
-      .firestore()
-      .collection("users")
-      .doc(userId)
-      .get()
-      .then(function(doc) {
-        vm.user = doc.data();
-        window.console.log("User", vm.user);
-      });
-
     firebase
       .firestore()
       .collection("events")
@@ -110,13 +97,30 @@ export default {
           return data;
         });
       });
+
+    firebase
+      .firestore()
+      .collection("teach-events")
+      .get()
+      .then(function(querySnapshot) {
+        let documents = [];
+        querySnapshot.forEach(document => {
+          documents.push(document);
+        });
+        vm.teachEvents = documents.map(d => {
+          let data = d.data();
+          data.id = d.id;
+          return data;
+        });
+      });
   },
   data() {
     return {
       user: null,
       events: [],
       workshops: [],
-      groupStudySessions: []
+      groupStudySessions: [],
+      teachEvents: []
     };
   },
   methods: {
@@ -142,9 +146,6 @@ export default {
       } else {
         return null;
       }
-    },
-    isGoing(event) {
-      return this.user.events.includes(event.id);
     },
     eventType(event) {
       if (event.type == "workshop") {
