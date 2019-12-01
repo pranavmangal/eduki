@@ -81,7 +81,7 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-btn color="primary" @click="onCreateEvent">Create</v-btn>
+                <v-btn color="primary" @click="onCreateEvent" :to="'/events'">Create</v-btn>
               </v-col>
             </v-row>
           </v-container>
