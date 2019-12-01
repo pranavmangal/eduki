@@ -13,16 +13,14 @@
               {{item.Added}} ~ {{item.Due}}
             </div>
           </v-card-text>
-          <v-card-actions>
-            <!-- <v-btn text color="deep-purple accent-4" @click="done(item)"> Done </v-btn> -->
-          </v-card-actions>
+          <v-card-actions></v-card-actions>
         </v-card>
       </card>
     </window>
     <RightBar>
       <work>
         <div v-for="item in items" :key="item.id">
-          <div>{{item.title}} - {{item.Due}}</div>
+          <div style="color:white">{{item.title}} - {{item.Due}}</div>
         </div>
       </work>
     </RightBar>
