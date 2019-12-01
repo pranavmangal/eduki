@@ -51,7 +51,6 @@ export default {
         .then(
           function(user) {
             window.console.log(user);
-            alert(`${user} is logged in`);
           },
           function(err) {
             window.console.log("An error occurred.", err);
