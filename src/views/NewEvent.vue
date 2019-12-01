@@ -6,7 +6,7 @@
           <v-card-title>Create Event</v-card-title>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6">
+              <v-col>
                 <v-text-field label="Event Name" v-model="eventName"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -81,7 +81,7 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-btn color="primary" @click="onCreateEvent">Create</v-btn>
+                <v-btn color="primary" @click="onCreateEvent" :to="'/events'">Create</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -90,15 +90,6 @@
     </v-container>
   </div>
 </template>
-
-<style scoped>
-.root-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-</style>
 
 <script>
 import firebase from "firebase";
@@ -119,7 +110,7 @@ export default {
       eventTypes: [
         { text: "Workshop", value: "workshop" },
         { text: "Group Study Session", value: "group-study" }
-      ],
+      ]
     };
   },
   methods: {
@@ -156,3 +147,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.root-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+</style>
