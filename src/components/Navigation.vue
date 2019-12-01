@@ -10,8 +10,7 @@
 
       <v-list-item two-line>
         <v-list-item-content>
-          <v-list-item-title v-html="username"></v-list-item-title>
-          <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+          <v-list-item-title><span v-html="username"></span> <v-btn @click="logout" x-small color="secondary" dark>Log out</v-btn></v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -44,6 +43,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 
 export default {
   name: "Navigation",
@@ -70,6 +70,11 @@ export default {
         return "";
       }
       return this.user.email;
+    }
+  },
+  methods: {
+    logout() {
+      firebase.auth().signOut();
     }
   }
 };
